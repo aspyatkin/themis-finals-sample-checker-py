@@ -5,11 +5,11 @@ from random import randrange
 
 
 class SampleChecker(Server):
-    def push(self, endpoint, flag_id, flag):
+    def push(self, endpoint, flag, adjunct, metadata):
         sleep(randrange(1, 5))
-        return Result.UP, flag_id
+        return Result.UP, adjunct
 
-    def pull(self, endpoint, flag_id, flag):
+    def pull(self, endpoint, flag, adjunct, metadata):
         sleep(randrange(1, 5))
         return Result.UP
 
