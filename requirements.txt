@@ -1,1 +1,1 @@
-themis.checker==2.0.0
+themis.checker==3.0.0
