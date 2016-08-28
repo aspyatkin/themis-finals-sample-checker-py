@@ -1,4 +1,4 @@
 #!/usr/bin/env sh
 . .venv/bin/activate
-QUEUE_INSTANCE=${INSTANCE:=0} rq worker --url "redis://${REDIS_HOST:=127.0.0.1}:${REDIS_PORT:=6379}/${REDIS_DB:=0}"
+QUEUE_INSTANCE=${INSTANCE:=0} REDIS_HOST=${REDIS_HOST:=127.0.0.1} REDIS_PORT=${REDIS_PORT:=6379} REDIS_DB=${REDIS_DB:=0} python run_worker.py
 deactivate

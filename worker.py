@@ -4,40 +4,27 @@ from datetime import datetime
 import dateutil.parser
 from dateutil.tz import tzlocal
 import base64
-from enum import Enum
-from time import sleep
-from random import randrange
 from sys import exc_info
 import requests
 from utils import issue_checker_token
 import os
+from result import Result
+from imp import load_source
 
 
 logger = get_logger()
-
-
-class Result(Enum):
-    UP = 101
-    CORRUPT = 102
-    MUMBLE = 103
-    DOWN = 104
-    INTERNAL_ERROR = 110
-
-
-def push(endpoint, flag, adjunct, metadata):
-    sleep(randrange(1, 5))
-    return Result.UP, adjunct
-
-
-def pull(endpoint, flag, adjunct, metadata):
-    sleep(randrange(1, 5))
-    return Result.UP
+checker_module_name = os.getenv(
+    'THEMIS_FINALS_CHECKER_MODULE',
+    os.path.join(os.getcwd(), 'checker.py')
+)
+checker_module = load_source('', checker_module_name)
 
 
 def internal_push(endpoint, flag, adjunct, metadata):
     result, updated_adjunct = Result.INTERNAL_ERROR, adjunct
     try:
-        result, updated_adjunct = push(endpoint, flag, adjunct, metadata)
+        result, updated_adjunct = checker_module.push(endpoint, flag, adjunct,
+                                                      metadata)
     except Exception:
         logger.exception('An exception occurred', exc_info=exc_info())
     return result, updated_adjunct
@@ -46,7 +33,7 @@ def internal_push(endpoint, flag, adjunct, metadata):
 def internal_pull(endpoint, flag, adjunct, metadata):
     result = Result.INTERNAL_ERROR
     try:
-        result = pull(endpoint, flag, adjunct, metadata)
+        result = checker_module.pull(endpoint, flag, adjunct, metadata)
     except Exception:
         logger.exception('An exception occurred', exc_info=exc_info())
     return result
