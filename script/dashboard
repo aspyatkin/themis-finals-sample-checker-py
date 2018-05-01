@@ -1,6 +1,0 @@
-#!/usr/bin/env sh
-. .venv/bin/activate
-SERVER_HOST=${HOST:='127.0.0.1'}
-SERVER_PORT=${PORT:=9181}
-uwsgi --socket $SERVER_HOST:$SERVER_PORT --protocol=http --virtualenv=.venv --mount '=themis.finals.checker.app.dashboard:app' --manage-script-name
-deactivate

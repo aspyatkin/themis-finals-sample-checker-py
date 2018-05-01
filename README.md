@@ -1,1 +1,1 @@
-# themis-finals-service2-checker
+# themis-finals-python-service-checker
