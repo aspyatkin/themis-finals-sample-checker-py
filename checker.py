@@ -1,15 +1,11 @@
 # -*- coding: utf-8 -*-
 from time import sleep
-from random import randrange, choice
+from random import randrange
 from themis.finals.checker.result import Result
-from string import ascii_letters, digits
 import logging
+from external import get_random_message
 
 logger = logging.getLogger(__name__)
-
-
-def get_random_message():
-    return ''.join(choice(ascii_letters + digits) for _ in range(16))
 
 
 def push(endpoint, capsule, label, metadata):
